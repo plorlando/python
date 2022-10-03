@@ -1,0 +1,50 @@
+inicio:
+    # DEFINIÇÃO DE VARIAVEIS
+    inteiro: num_jogadores;
+    array: nome_jogadores, pontuacao;
+    tupla: verdes, amarelos, vermelhos;
+    tupla: dado_verde, dado_amarelo, dado_vermelho;
+    dado_verde: ("c", "e", "p")
+    dado_amarelo: ("c", "e", "p")
+    dado_vermelho: ("c", "e", "p")
+
+    pontuacao <- ADICIONE "Pontuacao" na posição 0
+
+    PARA CADA ponto DENTRO DE pontuacao:
+        ADICIONE 0 DENTRO DE pontuacao NA POSICAO ponto
+
+    dado_verde: d1
+    dado_verde: d2
+    dado_verde: d3
+    dado_verde: d4
+    dado_verde: d5
+    dado_verde: d6
+    dado_amarelo: d7
+    dado_amarelo: d8
+    dado_amarelo: d9
+    dado_amarelo: d10
+    dado_vermelho: d11
+    dado_vermelho: d12
+    dado_vermelho: d13
+
+    nome_jogadores <- ADICIONE "Jogadores" na posição 0
+
+    PARA cada num DENTRO DE num_jogadores:
+        ESCREVA("Digite o nome do jogador " + num + ":")
+        LEIA(num)
+        ADICIONE num DENTRO DE nome_jogadores
+    
+    DEFINIR randomicamente o jogador inicial
+
+
+
+
+
+
+
+
+
+
+
+fim:
+
