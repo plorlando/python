@@ -2,17 +2,11 @@ inicio:
     # DEFINIÇÃO DE VARIAVEIS
     inteiro: num_jogadores;
     array: nome_jogadores, pontuacao;
-    tupla: verdes, amarelos, vermelhos;
     tupla: dado_verde, dado_amarelo, dado_vermelho;
-    dado_verde: ("c", "e", "p")
-    dado_amarelo: ("c", "e", "p")
-    dado_vermelho: ("c", "e", "p")
-
-    pontuacao <- ADICIONE "Pontuacao" na posição 0
-
-    PARA CADA ponto DENTRO DE pontuacao:
-        ADICIONE 0 DENTRO DE pontuacao NA POSICAO ponto
-
+    dado: ("c", "e", "p", "c", "e", "p")
+    dado_verde: ("c", "e", "c"," p", "c", "p")
+    dado_amarelo: ("c", "e", "p", "c", "e", "p")
+    dado_vermelho: ("e", "p", "e", "c", "e", "p")
     dado_verde: d1
     dado_verde: d2
     dado_verde: d3
@@ -27,6 +21,12 @@ inicio:
     dado_vermelho: d12
     dado_vermelho: d13
 
+    # DEFINICAO DE DADOS INICIAIS DENTRO DAS VARIAVEIS
+    pontuacao <- ADICIONE "Pontuacao" na posição 0
+
+    PARA CADA ponto DENTRO DE pontuacao:
+        ADICIONE 0 DENTRO DE pontuacao NA POSICAO ponto
+
     nome_jogadores <- ADICIONE "Jogadores" na posição 0
 
     PARA cada num DENTRO DE num_jogadores:
@@ -38,7 +38,10 @@ inicio:
 
 
 
+    # PROCEDIMENTO DO JOGO
 
+
+    
 
 
 
