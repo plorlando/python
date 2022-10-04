@@ -41,7 +41,23 @@ inicio:
     # PROCEDIMENTO DO JOGO
 
 
+    Define a quantidade de Jogadores
+
+    Define o nome de cada jogador
     
+    Define randomicamente o primeiro jogador
+
+    Jogador rodam os dados
+        Escolher aleatoriamente 3 dados (d1 a d13)
+            Para cada dado escolhido escolher aleatoriamente
+            1 face de acordo com as faces de cada cor
+            Registra os pontos
+            Verifica se jogador venceu
+            Verifica se jogador foi eliminado
+            Verifica se jogador quer jogar novamente
+    
+
+    Define o vencedor quem chegar a 13 pontos
 
 
 
