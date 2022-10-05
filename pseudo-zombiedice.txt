@@ -3,7 +3,6 @@ inicio:
     inteiro: num_jogadores;
     array: nome_jogadores, pontuacao;
     tupla: dado_verde, dado_amarelo, dado_vermelho;
-    dado: ("c", "e", "p", "c", "e", "p")
     dado_verde: ("c", "e", "c"," p", "c", "p")
     dado_amarelo: ("c", "e", "p", "c", "e", "p")
     dado_vermelho: ("e", "p", "e", "c", "e", "p")
