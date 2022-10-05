@@ -1,27 +1,28 @@
-
+import random
 
 
 
 # DEFINIÇÃO DE VARIÁVEIS
 jogadores = []
 data = {}
-data['pedro'] = {
-        "c": 0,
-        "p": 0,
-        "e": 0
-    }
-data['luciane'] = {
-        "c": 0,
-        "p": 0,
-        "e": 0
-    }
-data['luciane']['p'] = 8
-print(data)
 
-while not '':
+
+j = 'jogadores'
+
+def add_player(p):
+    jogadores.append(p)
+    data.update({ p: {
+        "c": 0,
+        "e": 0,
+        "p": 0
+        }
+    })
+
+
+while j != '':
     j = input('Digite o nome do jogador (deixe em branco para começar a jogar): ')
-    print(j)
-    jogadores = jogadores.append(j)
-    print(jogadores)
+    if j != '':
+        add_player(j)
 
-print(jogadores)
+print(random.choice(jogadores))
+print(data)
