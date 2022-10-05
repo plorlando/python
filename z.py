@@ -2,13 +2,10 @@ import random
 from xml.dom.expatbuilder import parseString
 import pandas as pd
 
-
 df = pd.DataFrame()
 
 players = []
 num_players = 0
-
-
 
 ####################
 
@@ -58,14 +55,14 @@ while True:
 
 for i in range(0, num_players):
     players.append([input(f'Digite o nome do jogador número {count_players+1}: '), 0, 0, 0, 0])
-    count_players += 1
+    
 
 df = pd.DataFrame(players, columns=['PLAYER', 'C', 'E', 'P', 'PLAYS'])
 print(df)
 
 
 # DEFININDO RANDOMICAMENTE O JOGADOR INICIAL
-iplayer = df.sample(replace=False)  # seleciona randimicamente o primeiro jogador
+iplayer = df.sample(replace=False)  # seleciona randomicamente o primeiro jogador
 p = iplayer.iloc[0]['PLAYER']  # armazena o nome do jogador
 index = iplayer.index[0]  # armazena o indice do jogador
 print(index, p)  # essa variável armazena o numero do jogador atual através do índice do dataframe
@@ -167,7 +164,6 @@ while winner == None:
     dice_number = str(random.choice(dices_numbers))
     dice = 'd' + dice_number
 
-    
     play(dice)  # registra os pontos
     
 
@@ -197,16 +193,6 @@ while winner == None:
 print(f'O JOGADOR VENCEDOR É {winner}')
 print('FIM DO JOGO')
 
-
-
-# def check_lose():
-#     pass
-
-# def check_play_again():
-#     pass
-
-# def check_tie():
-#     pass
 
 
 
