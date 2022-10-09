@@ -35,10 +35,10 @@ count_players = 0
 num_players = int(input('Quantas pessoas irão jogar? '))
 
 for i in range(0, num_players):
-    players.append([input(f'Digite o nome do jogador número {count_players+1}: '), 0, 0, 0])
+    players.append([input(f'Digite o nome do jogador número {count_players+1}: '), 0, 0, 0, 0])
     count_players += 1
 
-df = pd.DataFrame(players, columns=['PLAYER', 'C', 'E', 'P'])
+df = pd.DataFrame(players, columns=['PLAYER', 'C', 'E', 'P', 'PLAYS'])
 print(df)
 
 
@@ -110,6 +110,7 @@ match dice:
 
 
 df.loc[index, face] = df.loc[index, face] + 1
+df.loc[index, ['PLAYS']] = df.loc[index, ['PLAYS']] + 1
 print(df)
 
 
