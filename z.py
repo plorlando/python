@@ -130,6 +130,14 @@ def next_player(index):
         index = 0
     return index
 
+def check_shots():
+    s = df.loc[[index]]
+    
+    for i, j in df.iterrows():
+        if j['E'] == 3:
+            return i
+
+
 # JOGADA
 
 # ROLAR OS DADOS
@@ -140,14 +148,26 @@ def next_player(index):
 
 # ROLANDO OS DADOS
 while winner == None:
+    p = df.iloc[index]['PLAYER']
     input(f'Jogador {p}, role os dados')
     dice_number = str(random.randrange(1, 14))  # determina ramdomicamente o dado
     dice = 'd' + dice_number  # armazena o dado atual
     play(dice)  # registra os pontos
     df.loc[index, ['PLAYS']] = df.loc[index, ['PLAYS']] + 1  # registra a jogada
     print(df)
-    index = next_player(index)
+
+    if df.loc[index]['E'] == 3:
+        print('LEVOU TIRO, SEUS TIROS SERÃO ZERADO E VOCÊ DEVE PASSAR A VEZ')
+        df.loc[index, ['E']] = 0
+        index = next_player(index)
+
+    play_again = input('VOCÊ QUER JOGAR NOVAMENTE? ').lower()
+
+    if play_again == 'n':
+        index = next_player(index)
+
     print(index)
+
     winner = check_win()
     
 
