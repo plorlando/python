@@ -1,4 +1,5 @@
-# python
+# Versão Digital do Jogo Zombie Dice
+Versão do Python: 3.10.2 ou superior
 
 https://tabulaquadrada.com.br/review-zombie-dice-se-houvesse-um-apocalipse-zumbi-eu-seria-um-deles/#:~:text=Os%20jogadores%20devem%20posicionar%2Dse,E%20a%C3%AD%2C%20vai%20encarar%3F&text=O%20jogo%20%C3%A9%20muito%20simples,os%20dados%20e%20rol%C3%A1%2Dlos.
 
