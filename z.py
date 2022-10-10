@@ -8,6 +8,16 @@ df = pd.DataFrame()
 players = []
 num_players = 0
 
+
+
+####################
+
+# ADICIONAR RODADAS, POIS TODOS OS JOGADORES DEVEM JOGAR, e SE NAQUELA RODADA
+# GANHAR QUE CONSEGUIR MAIS CEREBROS, SE SAIR MAIS DE 13
+
+#############
+
+
 # CONFIGURACOES INICIAIS DO JOGO
 print('*********************************')
 print('ZOMBIE DICE')
@@ -30,7 +40,8 @@ red = ('E', 'P', 'E', 'C', 'E', 'P')
 # d11 = red
 # d12 = red
 # d13 = red
-rolled_dices = []
+dices_numbers = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13]
+available_dices = ['d1', 'd2', 'd3', 'd4', 'd5','d6', 'd7', 'd8', 'd9', 'd10', 'd11', 'd12', 'd13']
 count_players = 0
 winner = None  # variável que armazena o nome do vencedor
 
@@ -50,7 +61,7 @@ df = pd.DataFrame(players, columns=['PLAYER', 'C', 'E', 'P', 'PLAYS'])
 print(df)
 
 
-# DEFININDO RANDIMICAMENTE O JOGADOR INICIAL
+# DEFININDO RANDOMICAMENTE O JOGADOR INICIAL
 iplayer = df.sample(replace=False)  # seleciona randimicamente o primeiro jogador
 p = iplayer.iloc[0]['PLAYER']  # armazena o nome do jogador
 index = iplayer.index[0]  # armazena o indice do jogador
@@ -114,11 +125,7 @@ def play(dice):
         case _:
             print('default')
 
-    rolled_dices.append(dice)
-
 def check_win():
-    c = df.loc[[index]]
-    
     for i, j in df.iterrows():
         if j['C'] == 13:
             return j['PLAYER']
@@ -131,12 +138,13 @@ def next_player(index):
     return index
 
 def check_shots():
-    s = df.loc[[index]]
-    
     for i, j in df.iterrows():
         if j['E'] == 3:
             return i
 
+def remove_dice(available_dices, dice, dices_numbers, dice_number):
+    available_dices.remove(dice)
+    dices_numbers.remove(int(dice_number))
 
 # JOGADA
 
@@ -148,25 +156,36 @@ def check_shots():
 
 # ROLANDO OS DADOS
 while winner == None:
+    print(f'DADOS DISPONIVEIS: {available_dices}')
     p = df.iloc[index]['PLAYER']
     input(f'Jogador {p}, role os dados')
-    dice_number = str(random.randrange(1, 14))  # determina ramdomicamente o dado
-    dice = 'd' + dice_number  # armazena o dado atual
+
+    # DETERMINA RANDOMICAMENTE O DADO
+    dice_number = str(random.choice(dices_numbers))
+    dice = 'd' + dice_number
+
+    
     play(dice)  # registra os pontos
+    
+
     df.loc[index, ['PLAYS']] = df.loc[index, ['PLAYS']] + 1  # registra a jogada
     print(df)
 
     if df.loc[index]['E'] == 3:
-        print('LEVOU TIRO, SEUS TIROS SERÃO ZERADO E VOCÊ DEVE PASSAR A VEZ')
+        print('LEVOU 3 TIROS, SEUS CEREBROS SERÃO ZERADOS E VOCÊ DEVE PASSAR A VEZ')
         df.loc[index, ['E']] = 0
+        df.loc[index, ['C']] = 0
+        df.loc[index, ['P']] = 0
         index = next_player(index)
 
-    play_again = input('VOCÊ QUER JOGAR NOVAMENTE? ').lower()
+    remove_dice(available_dices, dice, dices_numbers, dice_number)  # remove o dado sorteado dos dados disponíveis
+    play_again = input('VOCÊ QUER JOGAR NOVAMENTE (S/N)? ').lower()
 
     if play_again == 'n':
         index = next_player(index)
-
-    print(index)
+        available_dices = ['d1', 'd2', 'd3', 'd4', 'd5','d6', 'd7', 'd8', 'd9', 'd10', 'd11', 'd12', 'd13']
+        dices_numbers = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13]
+        
 
     winner = check_win()
     
@@ -174,12 +193,6 @@ while winner == None:
 
 print(f'O JOGADOR VENCEDOR É {winner}')
 print('FIM DO JOGO')
-
-
-# def score():
-#     # deve ser registrado o ponto no dict, com o nome da pessoa e qual faze saiu
-#     # a cada ponto deve verificar condição de: 1-vitória, 2-derrota, e se nenhuma acontecer se ele quer jogar novamente
-#     pass
 
 
 
