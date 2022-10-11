@@ -47,8 +47,11 @@ winner = None  # variável que armazena o nome do vencedor
 
 while True:
     try:
-        num_players = int(input('Quantas pessoas vão jogar? '))
-        break
+        num_players = int(input('Informe a quantidade de jogadores: '))
+
+        if num_players < 2:
+                print('A quantidade de jogadores deve ser igual ou maior que dois!)
+                      
     except ValueError:
         print('Por favor, entre com um número!')
 
