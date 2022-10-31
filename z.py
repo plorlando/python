@@ -11,10 +11,10 @@ import random
 
 
 # CONFIGURACOES INICIAIS DO JOGO
-print('*********************************')
+print('\033[1:31;107m====================================================\033[m')
 print('ZOMBIE DICE')
 print('São necessários pelo menos 2 jogadores para pode jogar Zombie Dice.')
-print('*********************************\n')
+print('\033[1:31;107m====================================================\033[m\n')
 
 
 # DEFINIÇÃO DE VARIÁVEIS INICIAIS
@@ -74,7 +74,7 @@ def play(dice):
             print(f'DADO SORTEADO: AMARELO, face {face[0]}')
         case 'd10':
             face = random.sample(yellow, 1)
-            df.loc[indDADO SORTEADOex, face] = df.loc[index, face] + 1
+            df.loc[index, face] = df.loc[index, face] + 1
             print(f'DADO: AMARELO, face {face[0]}')
         case 'd11':
             face = random.sample(red, 1)
