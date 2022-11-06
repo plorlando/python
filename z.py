@@ -1,5 +1,6 @@
 import pandas as pd
-import random
+
+from zfunctions import *
 
 
 ####################
@@ -33,7 +34,9 @@ green = ('C', 'E', 'C', 'P', 'C', 'P')
 yellow = ('C', 'E', 'P', 'C', 'E', 'P')
 red = ('E', 'P', 'E', 'C', 'E', 'P')
 
+
 # FUNCOES
+# A função play registra o ponto no DataFrame(DF) localizando o índice do jogador atual e qual a face que foi sorteada
 def play(dice):
     match dice:
         case 'd1':
@@ -108,6 +111,8 @@ def check_shots():
         if j['E'] == 3:
             return i
 
+
+# Essa função remove da lista de dados disponíveis o dado sorteado
 def remove_dice(available_dices, dice):
     available_dices.remove(dice)
 
@@ -148,8 +153,8 @@ while game_on == True:
 # 1. se alguem atingiu 13 pontos, assim vencendo o jogo
 # 2. se o jogador atual levou 3 tiros, perdendo assim sua vez
 # 2.1. se o jogador levou 3 tiros perde a vez, e assim zera tudo dele (conferir essa regra)
-# 3. se o jogador atual quer passar a vez
-# 4. se tem dados disponíveis no tubos, se não ele tem que passar a vez
+# 3. se o jogador atual quer passar a vez (ok)
+# 4. se tem dados disponíveis no tubos, se não ele tem, ele tem que passar a vez (ok)
 
     # ROLANDO OS DADOS
     while winner == None:
