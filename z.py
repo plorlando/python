@@ -1,14 +1,9 @@
+### IMPORTANTE ###
+# Esse código somente roda em PYTHON 3.10 ou superior, por causa da função MATCH
+# ALUNO: PEDRO LOR ORLANDO
+
 import pandas as pd
-
-from zfunctions import *
-
-
-####################
-
-# ADICIONAR RODADAS, POIS TODOS OS JOGADORES DEVEM JOGAR, e SE NAQUELA RODADA
-# GANHAR QUE CONSEGUIR MAIS CEREBROS, SE SAIR MAIS DE 13
-
-#############
+import random
 
 
 # CONFIGURACOES INICIAIS DO JOGO
@@ -27,6 +22,7 @@ available_dices = ['d1', 'd2', 'd3', 'd4', 'd5','d6', 'd7', 'd8', 'd9', 'd10', '
 count_players = 0
 winner = None  # variável que armazena o nome do vencedor
 game_on = True
+
 
 
 # DEFINIÇÃO DE VARIÁVEIS AUXILIARES
@@ -94,10 +90,12 @@ def play(dice):
         case _:
             print('default')
 
+# essa função verifica se tem alguém com 13 pontos nos cérebros, determinando assim um vencedor
 def check_win():
     for i, j in df.iterrows():
         if j['C'] == 13:
             return j['PLAYER']
+
 
 def next_player(index):
     if index != df.tail(1).index[0]:
@@ -106,15 +104,25 @@ def next_player(index):
         index = 0
     return index
 
+
 def check_shots():
     for i, j in df.iterrows():
         if j['E'] == 3:
             return i
 
 
+def record_the_move(index):
+    df.loc[index, ['PLAYS']] = df.loc[index, ['PLAYS']] + 1
+
+
 # Essa função remove da lista de dados disponíveis o dado sorteado
 def remove_dice(available_dices, dice):
     available_dices.remove(dice)
+
+# ESSA FUNCAO DETERMINA RANDOMICAMENTE O DADO COM BASE NOS DADOS DISPONÍVEIS
+def set_dice(available_dices):
+    dice = str(random.choice(available_dices))
+    return dice
 
 
 # WHILE QUE ENGLOBA TODO O JOGO
@@ -133,7 +141,7 @@ while game_on == True:
         print('Por favor, entre com um número inteiro!')
 
 
-    # CONVERS   ÃO DA LISTA CRIADA EM UM DATAFRAME DO PANDAS PARA REGISTRO ESTATÍSTICO DAS JOGADAS
+    # CONVERSÃO DA LISTA CRIADA EM UM DATAFRAME DO PANDAS PARA REGISTRO ESTATÍSTICO DAS JOGADAS
     df = pd.DataFrame(players, columns=['PLAYER', 'C', 'E', 'P', 'PLAYS'])
     print(df)
 
@@ -144,61 +152,61 @@ while game_on == True:
     index = iplayer.index[0]  # armazena o indice do jogador
     print(index, p)  # essa variável armazena o numero do jogador atual através do índice do dataframe
 
-# JOGADA
 
-# ROLAR OS DADOS
-# REGISTRAR OS PONTOS
-
-# VERIFICACOES:
-# 1. se alguem atingiu 13 pontos, assim vencendo o jogo
-# 2. se o jogador atual levou 3 tiros, perdendo assim sua vez
-# 2.1. se o jogador levou 3 tiros perde a vez, e assim zera tudo dele (conferir essa regra)
-# 3. se o jogador atual quer passar a vez (ok)
-# 4. se tem dados disponíveis no tubos, se não ele tem, ele tem que passar a vez (ok)
-
-    # ROLANDO OS DADOS
+    # ROLANDO OS DADOS - AQUI ACONTECE UMA JOGADA COMPLETA
     while winner == None:
-
+        play_again = 's'
         p = df.iloc[index]['PLAYER']  # armazena o nome do jogador atual
         input(f'Jogador {p}, role os dados - DADOS DISPONIVEIS: {available_dices}')
 
-        # DETERMINA RANDOMICAMENTE O DADO
-        dice = str(random.choice(available_dices))
-
-        play(dice)  # registra os pontos
         
-
-        df.loc[index, ['PLAYS']] = df.loc[index, ['PLAYS']] + 1  # registra a jogada
+        # REGISTROS DA JOGADA
+        dice = set_dice(available_dices)  # armazena o dado atual 
+        play(dice)  # registra os pontos
+        record_the_move(index)  # registra a quantidade de jogadas
+        remove_dice(available_dices, dice)  # remove o dado sorteado dos dados disponíveis
         print(df)
         print()
 
+        ################################# VERIFICAR OS PASSOS
+
+        # VERIFICACOES:
+        # 1. se alguem atingiu 13 pontos, assim vencendo o jogo
+        winner = check_win()
+        if winner != None:
+            game_on = False
+
+        # 2. se o jogador atual levou 3 tiros, perdendo assim sua vez
         if df.loc[index]['E'] == 3:
-            print('LEVOU 3 TIROS, SEUS CEREBROS SERÃO ZERADOS E VOCÊ DEVE PASSAR A VEZ')
+            print(f'JOGADOR {p} LEVOU 3 TIROS, SEUS CEREBROS SERÃO ZERADOS E VOCÊ DEVE PASSAR A VEZ')
             df.loc[index, ['E']] = 0
             df.loc[index, ['C']] = 0
             df.loc[index, ['P']] = 0
-            index = next_player(index)
+            play_again = 'n' 
 
-        remove_dice(available_dices, dice)  # remove o dado sorteado dos dados disponíveis
-
+        
+        # 3. se tem dados disponíveis no tubos, se não ele tem ele tem que passar a vez
         if len(available_dices) <= 0:
             print(f'Jogador {p}, acabaram seus dados, você deve passar a vez')
             play_again = 'n'
-        else:
-            play_again = input('VOCÊ QUER JOGAR NOVAMENTE (S/N)? ').lower()
 
+
+        # 4. se o jogador atual quer passar a vez
+        if play_again == 's':
+            ask = input('VOCÊ QUER JOGAR NOVAMENTE (S/N)? ').lower()
+            if ask == 'n':
+                play_again = 'n'
+
+
+        # 5. verifica se o jogador atual PODE continuar jogando
         if play_again == 'n':
             index = next_player(index)
-            available_dices = ['d1', 'd2', 'd3', 'd4', 'd5','d6', 'd7', 'd8', 'd9', 'd10', 'd11', 'd12', 'd13']
-            
-
-        winner = check_win()
-
-        if winner != None:
-            print(f'O JOGADOR VENCEDOR É {winner}')
-            game_on = False
+            available_dices = ['d1', 'd2', 'd3', 'd4', 'd5','d6', 'd7', 'd8', 'd9', 'd10', 'd11', 'd12', 'd13']  # retorna todos os dados para o tubo
+        
 
 
+
+print(f'O JOGADOR VENCEDOR É {winner}')
 print('FIM DO JOGO')
 print('OBRIGADO')
 
