@@ -139,13 +139,17 @@ while game_on == True:
     index = iplayer.index[0]  # armazena o indice do jogador
     print(index, p)  # essa variável armazena o numero do jogador atual através do índice do dataframe
 
-    # JOGADA
+# JOGADA
 
-    # ROLAR OS DADOS
-    # REGISTRAR OS PONTOS
-    # VERIFICAR SE VENCEU
-    # SE NAO VENCEU VERIFICAR SE ACUMULOU 3 ESPINGARDAS
-    # SE NAO ACUMULOU VERIFICAR SE QUER JOGAR DE NOVO
+# ROLAR OS DADOS
+# REGISTRAR OS PONTOS
+
+# VERIFICACOES:
+# 1. se alguem atingiu 13 pontos, assim vencendo o jogo
+# 2. se o jogador atual levou 3 tiros, perdendo assim sua vez
+# 2.1. se o jogador levou 3 tiros perde a vez, e assim zera tudo dele (conferir essa regra)
+# 3. se o jogador atual quer passar a vez
+# 4. se tem dados disponíveis no tubos, se não ele tem que passar a vez
 
     # ROLANDO OS DADOS
     while winner == None:
