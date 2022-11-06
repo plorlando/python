@@ -1,0 +1,68 @@
+inicio:
+    # DEFINIÇÃO DE VARIAVEIS
+    inteiro: num_jogadores;
+    array: nome_jogadores, pontuacao;
+    tupla: dado_verde, dado_amarelo, dado_vermelho;
+    dado_verde: ("c", "e", "c"," p", "c", "p")
+    dado_amarelo: ("c", "e", "p", "c", "e", "p")
+    dado_vermelho: ("e", "p", "e", "c", "e", "p")
+    dado_verde: d1
+    dado_verde: d2
+    dado_verde: d3
+    dado_verde: d4
+    dado_verde: d5
+    dado_verde: d6
+    dado_amarelo: d7
+    dado_amarelo: d8
+    dado_amarelo: d9
+    dado_amarelo: d10
+    dado_vermelho: d11
+    dado_vermelho: d12
+    dado_vermelho: d13
+
+    # DEFINICAO DE DADOS INICIAIS DENTRO DAS VARIAVEIS
+    pontuacao <- ADICIONE "Pontuacao" na posição 0
+
+    PARA CADA ponto DENTRO DE pontuacao:
+        ADICIONE 0 DENTRO DE pontuacao NA POSICAO ponto
+
+    nome_jogadores <- ADICIONE "Jogadores" na posição 0
+
+    PARA cada num DENTRO DE num_jogadores:
+        ESCREVA("Digite o nome do jogador " + num + ":")
+        LEIA(num)
+        ADICIONE num DENTRO DE nome_jogadores
+    
+    DEFINIR randomicamente o jogador inicial
+
+
+
+    # PROCEDIMENTO DO JOGO
+
+
+    Define a quantidade de Jogadores
+
+    Define o nome de cada jogador
+    
+    Define randomicamente o primeiro jogador
+
+    Jogador rodam os dados
+        Escolher aleatoriamente 3 dados (d1 a d13)
+            Para cada dado escolhido escolher aleatoriamente
+            1 face de acordo com as faces de cada cor
+            Registra os pontos
+            Verifica se jogador venceu
+            Verifica se jogador foi eliminado
+            Verifica se jogador quer jogar novamente
+    
+
+    Define o vencedor quem chegar a 13 pontos
+
+
+
+
+
+
+
+fim:
+
