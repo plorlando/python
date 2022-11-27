@@ -1,5 +1,6 @@
 ### IMPORTANTE ###
 # Esse código somente roda em PYTHON 3.10 ou superior, por causa da função MATCH
+# usando funções para modularização e reúso de código
 # ALUNO: PEDRO LOR ORLANDO
 
 import os
@@ -7,25 +8,34 @@ import pandas as pd
 from colorama import Fore, Back, Style, init, deinit
 import random
 
-clear = lambda: os.system('cls')
+clear = lambda: os.system('cls')  # função para limpar a tela
 clear()
 
 # DEFINIÇÃO DE VARIÁVEIS INICIAIS
-df = pd.DataFrame()  # criação de um dataframe vazio
+df = pd.DataFrame  # criação de um dataframe vazio
 players = []  # dicionário vazio para armazenar o nome dos jogadores
 num_players = 0  # variável que vai armazenar o numero de zogadores
-dices_numbers = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13]
+# dices_numbers = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13]
 available_dices = ['d1', 'd2', 'd3', 'd4', 'd5','d6', 'd7', 'd8', 'd9', 'd10', 'd11', 'd12', 'd13']
 count_players = 0
 winner = None  # variável que armazena o nome do vencedor
 game_on = True
 
-# DEFINIÇÃO DAS VARIÁVEIS QUE REPRESENTAM OS DADOS
+# DEFINIÇÃO DAS VARIÁVEIS QUE REPRESENTAM AS FACES DOS DADOS
 green = ('CEREBRO', 'TIRO', 'CEREBRO', 'PASSO', 'CEREBRO', 'PASSO')
 yellow = ('CEREBRO', 'TIRO', 'PASSO', 'CEREBRO', 'TIRO', 'PASSO')
 red = ('TIRO', 'PASSO', 'TIRO', 'CEREBRO', 'TIRO', 'PASSO')
 
 def play(dice, df, green, yellow, red, index):
+    """
+    Função para registrar a jogada no DataFrame. Recebe os seguintes parâmetros:
+    dice: Dados Sorteado,
+    df: DataFrame utilizado para registrar os jogadores e os pontos,
+    green: Faces do dado VERDE,
+    yellow: Faces do dado AMARELO,
+    red: Faces do dado VERMELHO,
+    index: id do jogador atual, que realizou a jogada
+    """
     match dice:
         case 'd1':
             face = random.sample(green, 1)
@@ -83,14 +93,24 @@ def play(dice, df, green, yellow, red, index):
             print('default')
     print('\n')
 
-# essa função verifica se tem alguém com 13 pontos nos cérebros, determinando assim um vencedor
+
 def check_win(df):
+    """
+    Função que verifica se tem alguém com 13 pontos nos cérebros, determinando assim um vencedor
+    e saíndo do jogo
+    df: DataFrame utilizado para registrar os jogadores e os pontos
+    """
     for i, j in df.iterrows():
         if j['CEREBRO'] == 13:
-            return j['PLAYER']
+            return j['JOGADOR']
 
 
 def next_player(index, df):
+    """
+    Função para determinar o próximo jogador
+    index: id do jogador atual,
+    df: DataFrame utilizado para registrar os jogadores e os pontos
+    """
     if index != df.tail(1).index[0]:
         index += 1
     else:
@@ -99,22 +119,40 @@ def next_player(index, df):
 
 
 def check_shots(df):
+    """
+    Função que verifica se o jogador atual levou 3 tiros
+    df: DataFrame utilizado para registrar os jogadores e os pontos
+    """
     for i, j in df.iterrows():
         if j['TIRO'] == 3:
             return i
 
 
 def record_the_move(index, df):
-    df.loc[index, ['PLAYS']] = df.loc[index, ['PLAYS']] + 1
+    """
+    Função para registrar o número de jogadas
+    index: id do jogador atual,
+    df: DataFrame utilizado para registrar os jogadores e os pontos
+    """
+    df.loc[index, ['JOGADAS']] = df.loc[index, ['JOGADAS']] + 1
 
 
 # Essa função remove da lista de dados disponíveis o dado sorteado
 def remove_dice(available_dices, dice):
+    """
+    Função para remover os dados do tubo (dados dispoíveis)
+    available_dices: dados atualmente disponíveis no tubo,
+    dice: dado a ser removido do tubo
+    """
     available_dices.remove(dice)
 
 
 # ESSA FUNCAO DETERMINA RANDOMICAMENTE O DADO COM BASE NOS DADOS DISPONÍVEIS
 def set_dice(available_dices):
+    """
+    Função que realiza o sorteio do dado.
+    available_dices: dados atualmente disponíveis no tubo
+    """
     dice = str(random.choice(available_dices))
     return dice
 
@@ -139,8 +177,9 @@ while game_on == True:
             game_on = False
             break
         elif num_players == 1:
-            print('O jogo deve ter 2 ou mais jogadores\n')
+            print(f'{Fore.RED}{Back.BLACK}O jogo deve ter 2 ou mais jogadores{Style.RESET_ALL}\n')
             game_on = True
+            continue
         elif num_players >= 2:
             for i in range(0, num_players):
                 players.append([input(f'Digite o nome do jogador número {count_players+1}: '), 0, 0, 0, 0])
@@ -150,17 +189,17 @@ while game_on == True:
 
 
     # CONVERSÃO DA LISTA CRIADA EM UM DATAFRAME DO PANDAS PARA REGISTRO ESTATÍSTICO DAS JOGADAS
-    df = pd.DataFrame(players, columns=['PLAYER', 'CEREBRO', 'TIRO', 'PASSO', 'PLAYS'])
+    df = pd.DataFrame(players, columns=['JOGADOR', 'CEREBRO', 'TIRO', 'PASSO', 'JOGADAS'])
 
     # DEFININDO RANDOMICAMENTE O JOGADOR INICIAL
     iplayer = df.sample(replace=False)  # seleciona randomicamente o primeiro jogador
-    p = iplayer.iloc[0]['PLAYER']  # armazena o nome do jogador
+    p = iplayer.iloc[0]['JOGADOR']  # armazena o nome do jogador
     index = iplayer.index[0]  # armazena o indice do jogador atual, no início do jogo será o jogador sorteado
 
     # ROLANDO OS DADOS - AQUI ACONTECE UMA JOGADA COMPLETA
     while winner == None:
         play_again = 's'
-        p = df.iloc[index]['PLAYER']  # armazena o nome do jogador atual
+        p = df.iloc[index]['JOGADOR']  # armazena o nome do jogador atual
         print('-'.ljust(109, '-'))
         print(f'Jogador {Fore.BLACK}{Back.WHITE}{p}{Style.RESET_ALL}, Role os dados pressionando <ENTER>')
         input(f'DADOS DISPONIVEIS NO TUBO: {available_dices}')
@@ -170,9 +209,9 @@ while game_on == True:
         play(dice, df, green, yellow, red, index)  # registra os pontos
         record_the_move(index, df)  # registra a quantidade de jogadas
         remove_dice(available_dices, dice)  # remove o dado sorteado dos dados disponíveis
-        print(f'{Fore.WHITE}{Back.GREEN}PLACAR GERAL{Style.RESET_ALL}'.ljust(70, '-'))
+        print(f'{Fore.WHITE}{Back.GREEN}PLACAR GERAL{Style.RESET_ALL}'.center(60, '-'))
         print(f'{df.to_string(index=False)}\n')
-        print('-'.ljust(56, '-'))
+        print('-'.center(46, '-'))
         print()
 
         ################################# VERIFICAR OS PASSO
@@ -185,7 +224,7 @@ while game_on == True:
 
         # 2. se o jogador atual levou 3 TIRO, perdendo assim sua vez
         if df.loc[index]['TIRO'] == 3:
-            print(f'JOGADOR {Fore.WHITE}{Back.GREEN}{p}{Style.RESET_ALL} LEVOU 3 TIRO, SEUS CEREBRO SERÃO ZERADOS E VOCÊ DEVE PASSAR A VEZ')
+            print(f'JOGADOR {Fore.WHITE}{Back.GREEN}{p}{Style.RESET_ALL} LEVOU 3 TIROS, SEUS CEREBRO SERÃO ZERADOS E VOCÊ DEVE PASSAR A VEZ')
             df.loc[index, ['TIRO']] = 0
             df.loc[index, ['CEREBRO']] = 0
             df.loc[index, ['PASSO']] = 0
